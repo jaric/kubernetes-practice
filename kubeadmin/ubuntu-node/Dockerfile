@@ -1,5 +1,5 @@
 # Use the official image as a parent image
-FROM ubuntu
+FROM ubuntu:20.04
  
 # Update the system
 RUN apt-get update && apt-get upgrade -y
@@ -28,6 +28,10 @@ EXPOSE 22
 
 COPY src/init.sh /tmp/init.sh
 RUN chmod u+x /tmp/init.sh
+
+RUN curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+RUN apt-add-repository "deb http://apt.kubernetes.io/ kubernetes-xenial main"
+RUN apt install -qq -y kubeadm=1.26.0-00 kubelet=1.26.0-00 kubectl=1.26.0-00
  
 # Run SSH
 CMD ["/usr/sbin/sshd", "-D"]
