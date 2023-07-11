@@ -8,7 +8,7 @@ RUN apt-get update && apt-get upgrade -y
 RUN apt-get install -y openssh-server 
 
 # Install required packages
-RUN apt-get install -y bash net-tools vim less net-tools curl gpg kmod
+RUN apt-get install -y bash net-tools vim less net-tools curl gpg kmod software-properties-common 
  
 # Set up configuration for SSH
 RUN mkdir /var/run/sshd
@@ -26,8 +26,8 @@ RUN echo "export VISIBLE=now" >> /etc/profile
 # Expose the SSH port
 EXPOSE 22
 
-COPY src/init.sh .
-RUN chmod u+x init.sh
+COPY src/init.sh /tmp/init.sh
+RUN chmod u+x /tmp/init.sh
  
 # Run SSH
 CMD ["/usr/sbin/sshd", "-D"]
